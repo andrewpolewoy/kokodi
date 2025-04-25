@@ -1,0 +1,124 @@
+{
+  "info": {
+    "name": "Kokodi Game API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register Player 1",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"login\": \"player1\",\n    \"password\": \"password\",\n    \"name\": \"Player One\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/auth/register"
+      }
+    },
+    {
+      "name": "Login Player 1",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"login\": \"player1\",\n    \"password\": \"password\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/auth/login"
+      }
+    },
+    {
+      "name": "Create Game",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{player1_token}}"
+          }
+        ],
+        "url": "http://localhost:8080/api/games"
+      }
+    },
+    {
+      "name": "Register Player 2",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"login\": \"player2\",\n    \"password\": \"password\",\n    \"name\": \"Player Two\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://localhost:8080/api/auth/register"
+      }
+    },
+    {
+      "name": "Join Game",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{player2_token}}"
+          }
+        ],
+        "url": "http://localhost:8080/api/games/1/join"
+      }
+    },
+    {
+      "name": "Start Game",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{player1_token}}"
+          }
+        ],
+        "url": "http://localhost:8080/api/games/1/start"
+      }
+    },
+    {
+      "name": "Make Turn",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{player1_token}}"
+          }
+        ],
+        "url": "http://localhost:8080/api/games/1/turn"
+      }
+    },
+    {
+      "name": "Get Game State",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{player1_token}}"
+          }
+        ],
+        "url": "http://localhost:8080/api/games/1"
+      }
+    }
+  ]
+}
