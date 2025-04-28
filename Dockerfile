@@ -1,17 +1,17 @@
-FROM eclipse-temurin:21-jdk-alpine as build
+# Stage 1: Build
+FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /workspace/app
 
 COPY gradle gradle
 COPY build.gradle settings.gradle gradlew gradlew.bat ./
 COPY src src
 
+RUN chmod +x gradlew
 RUN ./gradlew build -x test
-RUN mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
+RUN ls -la build/libs/  # Для отладки
 
+# Stage 2: Run
 FROM eclipse-temurin:21-jre-alpine
-VOLUME /tmp
-ARG DEPENDENCY=/workspace/app/build/dependency
-COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.kokodi.KokodiApplicationKt"] 
+WORKDIR /app
+COPY --from=build /workspace/app/build/libs/kokodi-*.jar /app/kokodi.jar
+ENTRYPOINT ["java", "-jar", "/app/kokodi.jar"]
